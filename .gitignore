@@ -1,0 +1,6 @@
+/.idea
+/local.properties
+**/.gradle
+**/build
+/android/src/main/jniLibs
+/android/src/main/kotlin
