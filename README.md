@@ -47,10 +47,11 @@ In order to publish the library to your local Maven repository:
 
 Set your `~/.gradle/gradle.properties` signing key values and SONATYPE login
 ```properties
+signingKey=<YOUR_GNUPG_ID_LAST_8_CHARS>
+signingPassword=<YOUR_GNUPG_PASSPHRASE>
 signing.gnupg.keyName=<YOUR_GNUPG_ID>
-signing.gnupg.passphrase=<YOUR_GNUPG_PASSPHRASE>
 
-ossrhUserName=<YOUR_SONATYPE_USERNAME>
+ossrhUsername=<YOUR_SONATYPE_USERNAME>
 ossrhPassword=<YOUR_SONATYPE_PASSWORD>
 ```
 and then publish by running:

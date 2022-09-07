@@ -57,10 +57,11 @@ afterEvaluate {
                 pom {
                     name.set("rgb-lib-android")
                     description.set("RGB Lib Kotlin language bindings.")
+                    url.set("https://github.com/RGB-Tools/rgb-lib-kotlin")
                     licenses {
                         license {
                             name.set("MIT")
-                            url.set("https://spdx.org/licenses/MIT.html")
+                            url.set("https://github.com/RGB-Tools/rgb-lib-kotlin/blob/master/LICENSE")
                         }
                     }
                     developers {
