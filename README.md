@@ -2,12 +2,11 @@
 
 This project builds an Android library, `rgb-lib-android`, for the [rgb-lib]
 Rust library, which is included as a git submodule. The bindings are created by
-the [rgb-lib-ffi] project, which in located inside the rgb-lib submodule.
+the [rgb-lib-ffi] project, which is located inside the rgb-lib submodule.
 
 ## Usage
 
 To use the Kotlin library add the following to your project gradle dependencies:
-
 ```groovy
 repositories {
     mavenCentral()
@@ -27,9 +26,16 @@ In order to build the project, setup the following environment variables:
 - `ANDROID_NDK_ROOT` (e.g. `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/21.<NDK_VERSION>`)
 
 Then, clone this project and run:
-
 ```bash
+# Update the submodule
 git submodule update --init
+
+# Add Android rust targets
+rustup target add aarch64-linux-android
+rustup target add armv7-linux-androideabi
+rustup target add x86_64-linux-android
+
+# Build the Android library
 ./gradlew :android:buildAndroidLib
 ```
 
@@ -38,7 +44,6 @@ git submodule update --init
 #### To local Maven repository
 
 In order to publish the library to your local Maven repository:
-
 ```bash
 ./gradlew :android:publishToMavenLocal --exclude-task signMavenPublication
 ```
