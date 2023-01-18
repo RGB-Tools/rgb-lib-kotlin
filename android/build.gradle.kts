@@ -9,18 +9,18 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    namespace = "org.rgbtools"
+
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
             proguardFiles(file("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
     }
@@ -31,19 +31,23 @@ android {
             withJavadocJar()
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
-    implementation("net.java.dev.jna:jna:5.8.0@aar")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
-    implementation("androidx.appcompat:appcompat:1.4.0")
-    implementation("androidx.core:core-ktx:1.7.0")
-    api("org.slf4j:slf4j-api:1.7.30")
-
-    androidTestImplementation("com.github.tony19:logback-android:2.0.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
+    implementation("net.java.dev.jna:jna:5.13.0@aar")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("androidx.appcompat:appcompat:1.6.0")
+    implementation("androidx.core:core-ktx:1.9.0")
+    api("org.slf4j:slf4j-api:2.0.6")
 }
 
 afterEvaluate {
