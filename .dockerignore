@@ -1,0 +1,13 @@
+*
+
+!/android/build.gradle.kts
+!/android/proguard-rules.pro
+!/android/src/main/AndroidManifest.xml
+!/build.gradle.kts
+!/buildSrc/build.gradle.kts
+!/buildSrc/src
+!/entrypoint.sh
+!/gradle
+!/gradle.properties
+!/gradlew
+!/settings.gradle.kts

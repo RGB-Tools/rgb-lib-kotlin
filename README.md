@@ -21,6 +21,30 @@ dependencies {
 
 ### Build
 
+#### In docker
+
+In order to build the project, clone it and run:
+```bash
+# Update the submodule
+git submodule update --init
+```
+
+Then build the docker image:
+```bash
+# takes a long time and uses a lot of disk space
+docker-compose build
+```
+
+Finally start the build container (if your user or group IDs are not `1000`,
+adjust the environment variables `MYUID` and `MYGID` in the
+`docker-compose.yml` file accordingly):
+```bash
+# will mount the local directory into the docker container
+docker-compose up
+```
+
+#### Local
+
 In order to build the project, setup the following environment variables:
 - `ANDROID_SDK_ROOT` (e.g. `export ANDROID_SDK_ROOT=~/Android/Sdk`)
 - `ANDROID_NDK_ROOT` (e.g. `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/21.<NDK_VERSION>`)

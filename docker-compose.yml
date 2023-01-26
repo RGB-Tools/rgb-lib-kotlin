@@ -1,0 +1,11 @@
+version: '3.2'
+
+services:
+  builder:
+    image: rgb-lib-kotlin
+    build: .
+    environment:
+      MYUID: 1000
+      MYGID: 1000
+    volumes:
+      - ./:/home/rgb-lib-kotlin/rgb-lib-kotlin/
