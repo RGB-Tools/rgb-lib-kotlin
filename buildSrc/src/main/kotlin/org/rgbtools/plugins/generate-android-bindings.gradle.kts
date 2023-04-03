@@ -144,8 +144,8 @@ val generateAndroidBindings by tasks.register<Exec>("generateAndroidBindings") {
 
     workingDir(rgbLibFfiPath)
     executable("cargo")
-    args("run", "--package", "rgb-lib-ffi-bindgen", "--", "--language", "kotlin",
-        "--out-dir", "$androidPath/src/main/kotlin")
+    args("run", "--bin", "rgb-lib-ffi-bindgen", "generate", "src/rgb-lib.udl",
+        "--language", "kotlin", "--out-dir", "$androidPath/src/main/kotlin")
 
     doLast {
         println("Android bindings file successfully created")
