@@ -32,7 +32,7 @@ git submodule update --init
 Then build the docker image:
 ```bash
 # takes a long time and uses a lot of disk space
-docker-compose build
+docker compose build
 ```
 
 Finally start the build container (if your user or group IDs are not `1000`,
@@ -40,7 +40,7 @@ adjust the environment variables `MYUID` and `MYGID` in the
 `docker-compose.yml` file accordingly):
 ```bash
 # will mount the local directory into the docker container
-docker-compose up
+docker compose up
 ```
 
 #### Local
