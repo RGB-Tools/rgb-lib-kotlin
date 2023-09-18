@@ -1,4 +1,4 @@
-FROM rust:1.69-slim-bullseye
+FROM rust:1.67-slim-bullseye
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
@@ -31,7 +31,6 @@ RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK
         "ndk;$NDK_VERSION" \
         "cmake;3.22.1"
 
-RUN rustup update && rustup default stable
 RUN rustup target add \
         aarch64-linux-android \
         x86_64-linux-android \
