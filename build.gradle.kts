@@ -23,7 +23,7 @@ signing {
 }
 
 group = "org.rgbtools"
-version = "0.2.0-alpha.3-SNAPSHOT"
+version = "0.2.0-alpha.4-SNAPSHOT"
 
 nexusPublishing {
     repositories {
