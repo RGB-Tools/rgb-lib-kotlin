@@ -1,4 +1,4 @@
-FROM rust:1.67-slim-bullseye
+FROM rust:1.72-slim-bullseye
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
@@ -11,7 +11,7 @@ ARG USER="rgb-lib-kotlin"
 ENV USER="$USER" USER_HOME="/home/$USER"
 RUN adduser --home "$USER_HOME" --disabled-login --gecos "$USER user" $USER
 
-ARG NDK_VERSION="21.4.7075529"
+ARG NDK_VERSION="25.2.9519653"
 ENV ANDROID_SDK_ROOT="$USER_HOME/sdk"
 ENV ANDROID_NDK_ROOT="$ANDROID_SDK_ROOT/ndk/$NDK_VERSION"
 
