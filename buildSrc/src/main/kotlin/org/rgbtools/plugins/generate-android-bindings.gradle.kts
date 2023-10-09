@@ -41,9 +41,10 @@ val buildAndroidAarch64Binary by tasks.register<Exec>("buildAndroidAarch64Binary
         // add build toolchain to PATH
         Pair("PATH", "${System.getenv("PATH")}:${System.getenv("ANDROID_NDK_ROOT")}/toolchains/llvm/prebuilt/$llvmArchPath/bin"),
 
-        Pair("CFLAGS", "-D__ANDROID_API__=21"),
         Pair("CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER", "aarch64-linux-android21-clang"),
-        Pair("CC", "aarch64-linux-android21-clang")
+        Pair("CC", "aarch64-linux-android21-clang"),
+        Pair("AR_aarch64_linux_android", "llvm-ar"),
+        Pair("RANLIB_aarch64_linux_android", "llvm-ranlib")
     )
 
     doLast {
@@ -71,9 +72,10 @@ val buildAndroidX86_64Binary by tasks.register<Exec>("buildAndroidX86_64Binary")
         // add build toolchain to PATH
         Pair("PATH", "${System.getenv("PATH")}:${System.getenv("ANDROID_NDK_ROOT")}/toolchains/llvm/prebuilt/$llvmArchPath/bin"),
 
-        Pair("CFLAGS", "-D__ANDROID_API__=21"),
         Pair("CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER", "x86_64-linux-android21-clang"),
-        Pair("CC", "x86_64-linux-android21-clang")
+        Pair("CC", "x86_64-linux-android21-clang"),
+        Pair("AR_x86_64_linux_android", "llvm-ar"),
+        Pair("RANLIB_x86_64_linux_android", "llvm-ranlib")
     )
 
     doLast {
@@ -101,9 +103,10 @@ val buildAndroidArmv7Binary by tasks.register<Exec>("buildAndroidArmv7Binary") {
         // add build toolchain to PATH
         Pair("PATH", "${System.getenv("PATH")}:${System.getenv("ANDROID_NDK_ROOT")}/toolchains/llvm/prebuilt/$llvmArchPath/bin"),
 
-        Pair("CFLAGS", "-D__ANDROID_API__=21"),
         Pair("CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER", "armv7a-linux-androideabi21-clang"),
-        Pair("CC", "armv7a-linux-androideabi21-clang")
+        Pair("CC", "armv7a-linux-androideabi21-clang"),
+        Pair("AR_armv7_linux_androideabi", "llvm-ar"),
+        Pair("RANLIB_armv7_linux_androideabi", "llvm-ranlib")
     )
 
     doLast {
