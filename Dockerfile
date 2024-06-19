@@ -1,4 +1,4 @@
-FROM rust:1.72-slim-bullseye
+FROM rust:1.79-slim-bullseye
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
