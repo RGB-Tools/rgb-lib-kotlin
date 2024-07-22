@@ -47,7 +47,7 @@ docker compose up
 
 In order to build the project, setup the following environment variables:
 - `ANDROID_SDK_ROOT` (e.g. `export ANDROID_SDK_ROOT=~/Android/Sdk`)
-- `ANDROID_NDK_ROOT` (e.g. `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/21.<NDK_VERSION>`)
+- `ANDROID_NDK_ROOT` (e.g. `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/25.<NDK_VERSION>`)
 
 Then, clone this project and run:
 ```bash
