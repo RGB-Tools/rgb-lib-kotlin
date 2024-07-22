@@ -1,9 +1,9 @@
-FROM rust:1.79-slim-bullseye
+FROM rust:1.79-slim-bookworm
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-        cmake g++ git gosu libpcre3-dev libssl-dev make openjdk-11-jdk \
+        cmake g++ git gosu libpcre3-dev libssl-dev make openjdk-17-jdk \
         pkg-config unzip wget \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -18,7 +18,7 @@ ENV ANDROID_NDK_ROOT="$ANDROID_SDK_ROOT/ndk/$NDK_VERSION"
 USER "$USER"
 
 RUN cd && mkdir android-cli && cd android-cli \
-    && wget https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip \
+    && wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip \
     && unzip commandlinetools-linux-*_latest.zip \
     && mkdir $ANDROID_SDK_ROOT \
     && mv cmdline-tools $ANDROID_SDK_ROOT/ \
@@ -26,8 +26,8 @@ RUN cd && mkdir android-cli && cd android-cli \
 
 RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT \
         "platform-tools" \
-        "build-tools;33.0.1" \
-        "platforms;android-33" \
+        "build-tools;34.0.0" \
+        "platforms;android-34" \
         "ndk;$NDK_VERSION" \
         "cmake;3.22.1"
 
