@@ -9,7 +9,7 @@ val llvmArchPath = when (operatingSystem) {
 }
 
 val androidPath = "${project.projectDir}/../android"
-val rgbLibFfiPath = "${project.projectDir}/../rgb-lib/rgb-lib-ffi"
+val rgbLibUniffiPath = "${project.projectDir}/../rgb-lib/bindings/uniffi"
 
 val jniLibsDir = "$androidPath/src/main/jniLibs/"
 
@@ -24,7 +24,7 @@ val prepareBuild by tasks.register("prepareBuild") {
 // arm64-v8a is the most popular hardware architecture for Android
 val buildAndroidAarch64Binary by tasks.register<Exec>("buildAndroidAarch64Binary") {
 
-    workingDir(rgbLibFfiPath)
+    workingDir(rgbLibUniffiPath)
     val cargoArgs = cargoBuildCommonArgs + mutableListOf("aarch64-linux-android")
 
     executable("cargo")
@@ -55,7 +55,7 @@ val buildAndroidAarch64Binary by tasks.register<Exec>("buildAndroidAarch64Binary
 // the x86_64 version of the library is mostly used by emulators
 val buildAndroidX86_64Binary by tasks.register<Exec>("buildAndroidX86_64Binary") {
 
-    workingDir(rgbLibFfiPath)
+    workingDir(rgbLibUniffiPath)
     val cargoArgs = cargoBuildCommonArgs + mutableListOf("x86_64-linux-android")
 
     executable("cargo")
@@ -86,7 +86,7 @@ val buildAndroidX86_64Binary by tasks.register<Exec>("buildAndroidX86_64Binary")
 // armeabi-v7a version of the library for older 32-bit Android hardware
 val buildAndroidArmv7Binary by tasks.register<Exec>("buildAndroidArmv7Binary") {
 
-    workingDir(rgbLibFfiPath)
+    workingDir(rgbLibUniffiPath)
     val cargoArgs = cargoBuildCommonArgs + mutableListOf("armv7-linux-androideabi")
 
     executable("cargo")
@@ -114,7 +114,7 @@ val buildAndroidArmv7Binary by tasks.register<Exec>("buildAndroidArmv7Binary") {
     }
 }
 
-// move the native libs build by cargo from rgb-lib-ffi/target/<architecture>/debug/
+// move the native libs build by cargo from rgb-lib/bindings/uniffi/target/<architecture>/debug/
 // to their place in the rgb-lib-android library
 // the task only copies the available binaries built using the buildAndroid<architecture>Binary tasks
 val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
@@ -122,17 +122,17 @@ val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
     into(jniLibsDir)
 
     into("arm64-v8a") {
-        from("$rgbLibFfiPath/target/aarch64-linux-android/debug/librgblibffi.so")
+        from("$rgbLibUniffiPath/target/aarch64-linux-android/debug/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/arm64-v8a/libc++_shared.so")
     }
 
     into("x86_64") {
-        from("$rgbLibFfiPath/target/x86_64-linux-android/debug/librgblibffi.so")
+        from("$rgbLibUniffiPath/target/x86_64-linux-android/debug/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++_shared.so")
     }
 
     into("armeabi-v7a") {
-        from("$rgbLibFfiPath/target/armv7-linux-androideabi/debug/librgblibffi.so")
+        from("$rgbLibUniffiPath/target/armv7-linux-androideabi/debug/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so")
     }
 
@@ -141,13 +141,13 @@ val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
     }
 }
 
-// generate the bindings using the rgb-lib-ffi-bindgen tool located in the rgb-lib-ffi submodule
+// generate the bindings using the rgb-lib-uniffi-bindgen tool located in the rgb-lib submodule
 val generateAndroidBindings by tasks.register<Exec>("generateAndroidBindings") {
     dependsOn(moveNativeAndroidLibs)
 
-    workingDir(rgbLibFfiPath)
+    workingDir(rgbLibUniffiPath)
     executable("cargo")
-    args("run", "--bin", "rgb-lib-ffi-bindgen", "generate", "src/rgb-lib.udl",
+    args("run", "--bin", "rgb-lib-uniffi-bindgen", "generate", "src/rgb-lib.udl",
         "--language", "kotlin", "--out-dir", "$androidPath/src/main/kotlin")
 
     doLast {

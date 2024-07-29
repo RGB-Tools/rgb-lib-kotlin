@@ -2,7 +2,7 @@
 
 This project builds an Android library, `rgb-lib-android`, for the [rgb-lib]
 Rust library, which is included as a git submodule. The bindings are created by
-the [rgb-lib-ffi] project, which is located inside the rgb-lib submodule.
+the [rgb-lib-uniffi] project, which is located inside the rgb-lib submodule.
 
 ## Usage
 
@@ -90,4 +90,4 @@ and then publish by running:
 
 
 [rgb-lib]: https://github.com/RGB-Tools/rgb-lib
-[rgb-lib-ffi]: https://github.com/RGB-Tools/rgb-lib/tree/master/rgb-lib-ffi
+[rgb-lib-uniffi]: https://github.com/RGB-Tools/rgb-lib/tree/master/bindings/uniffi
