@@ -56,7 +56,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "org.rgbtools"
                 artifactId = "rgb-lib-android"
-                version = "0.3.0-alpha.6-SNAPSHOT"
+                version = "0.3.0-alpha.8-SNAPSHOT"
                 from(components["release"])
                 pom {
                     name.set("rgb-lib-android")
