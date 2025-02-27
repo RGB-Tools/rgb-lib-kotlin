@@ -15,7 +15,7 @@ val jniLibsDir = "$androidPath/src/main/jniLibs/"
 
 val androidNdkRoot = System.getenv("ANDROID_NDK_ROOT")
 
-val cargoBuildCommonArgs: MutableList<String> = mutableListOf("build", "--target")
+val cargoBuildCommonArgs: MutableList<String> = mutableListOf("build", "--release", "--target")
 
 val prepareBuild by tasks.register("prepareBuild") {
     File(jniLibsDir).deleteRecursively()
@@ -114,7 +114,7 @@ val buildAndroidArmv7Binary by tasks.register<Exec>("buildAndroidArmv7Binary") {
     }
 }
 
-// move the native libs build by cargo from rgb-lib/bindings/uniffi/target/<architecture>/debug/
+// move the native libs build by cargo from rgb-lib/bindings/uniffi/target/<architecture>/release/
 // to their place in the rgb-lib-android library
 // the task only copies the available binaries built using the buildAndroid<architecture>Binary tasks
 val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
@@ -122,17 +122,17 @@ val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
     into(jniLibsDir)
 
     into("arm64-v8a") {
-        from("$rgbLibUniffiPath/target/aarch64-linux-android/debug/librgblibuniffi.so")
+        from("$rgbLibUniffiPath/target/aarch64-linux-android/release/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/arm64-v8a/libc++_shared.so")
     }
 
     into("x86_64") {
-        from("$rgbLibUniffiPath/target/x86_64-linux-android/debug/librgblibuniffi.so")
+        from("$rgbLibUniffiPath/target/x86_64-linux-android/release/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++_shared.so")
     }
 
     into("armeabi-v7a") {
-        from("$rgbLibUniffiPath/target/armv7-linux-androideabi/debug/librgblibuniffi.so")
+        from("$rgbLibUniffiPath/target/armv7-linux-androideabi/release/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so")
     }
 
