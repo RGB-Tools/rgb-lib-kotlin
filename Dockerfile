@@ -1,4 +1,4 @@
-FROM rust:1.87-slim-bookworm
+FROM rust:1.88-slim-bookworm
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
