@@ -44,7 +44,10 @@ val buildAndroidAarch64Binary by tasks.register<Exec>("buildAndroidAarch64Binary
         Pair("CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER", "aarch64-linux-android21-clang"),
         Pair("CC", "aarch64-linux-android21-clang"),
         Pair("AR_aarch64_linux_android", "llvm-ar"),
-        Pair("RANLIB_aarch64_linux_android", "llvm-ranlib")
+        Pair("RANLIB_aarch64_linux_android", "llvm-ranlib"),
+
+        // support 16KB pages
+        Pair("RUSTFLAGS", "-C link-arg=-Wl,-z,max-page-size=16384"),
     )
 
     doLast {
@@ -75,7 +78,10 @@ val buildAndroidX86_64Binary by tasks.register<Exec>("buildAndroidX86_64Binary")
         Pair("CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER", "x86_64-linux-android21-clang"),
         Pair("CC", "x86_64-linux-android21-clang"),
         Pair("AR_x86_64_linux_android", "llvm-ar"),
-        Pair("RANLIB_x86_64_linux_android", "llvm-ranlib")
+        Pair("RANLIB_x86_64_linux_android", "llvm-ranlib"),
+
+        // support 16KB pages
+        Pair("RUSTFLAGS", "-C link-arg=-Wl,-z,max-page-size=16384"),
     )
 
     doLast {
@@ -106,7 +112,10 @@ val buildAndroidArmv7Binary by tasks.register<Exec>("buildAndroidArmv7Binary") {
         Pair("CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER", "armv7a-linux-androideabi21-clang"),
         Pair("CC", "armv7a-linux-androideabi21-clang"),
         Pair("AR_armv7_linux_androideabi", "llvm-ar"),
-        Pair("RANLIB_armv7_linux_androideabi", "llvm-ranlib")
+        Pair("RANLIB_armv7_linux_androideabi", "llvm-ranlib"),
+
+        // support 16KB pages
+        Pair("RUSTFLAGS", "-C link-arg=-Wl,-z,max-page-size=16384"),
     )
 
     doLast {
