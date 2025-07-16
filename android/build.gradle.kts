@@ -1,8 +1,7 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     id("maven-publish")
-    id("signing")
 
     // Custom plugin to generate the native libs and bindings file
     id("org.rgbtools.plugins.generate-android-bindings")
@@ -11,7 +10,7 @@ plugins {
 android {
     namespace = "org.rgbtools"
 
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 21
@@ -43,11 +42,11 @@ android {
 }
 
 dependencies {
-    implementation("net.java.dev.jna:jna:5.13.0@aar")
+    implementation("net.java.dev.jna:jna:5.17.0@aar")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("androidx.appcompat:appcompat:1.6.0")
-    implementation("androidx.core:core-ktx:1.9.0")
-    api("org.slf4j:slf4j-api:2.0.6")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.core:core-ktx:1.16.0")
+    api("org.slf4j:slf4j-api:2.0.17")
 }
 
 afterEvaluate {
@@ -58,14 +57,16 @@ afterEvaluate {
                 artifactId = "rgb-lib-android"
                 version = "0.3.0-beta.1"
                 from(components["release"])
+
                 pom {
                     name.set("rgb-lib-android")
                     description.set("RGB Lib Kotlin language bindings.")
                     url.set("https://github.com/RGB-Tools/rgb-lib-kotlin")
+                    inceptionYear.set("2022")
                     licenses {
                         license {
                             name.set("MIT")
-                            url.set("https://github.com/RGB-Tools/rgb-lib-kotlin/blob/master/LICENSE")
+                            url.set("https://spdx.org/licenses/MIT.html")
                         }
                     }
                     developers {
@@ -81,17 +82,20 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection.set("scm:git:github.com/RGB-Tools/rgb-lib-kotlin.git")
+                        connection.set("scm:git:https://github.com/RGB-Tools/rgb-lib-kotlin.git")
                         developerConnection.set("scm:git:ssh://github.com/RGB-Tools/rgb-lib-kotlin.git")
                         url.set("https://github.com/RGB-Tools/rgb-lib-kotlin")
                     }
                 }
             }
         }
+
+        repositories {
+            maven {
+                name = "staging"
+                url = layout.buildDirectory.dir("staging-deploy").get().asFile.toURI()
+            }
+        }
     }
 }
 
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-}

@@ -74,18 +74,33 @@ In order to publish the library to your local Maven repository:
 
 #### To Maven Central repository (project maintainers only)
 
-Set your `~/.gradle/gradle.properties` signing key values and SONATYPE login
-```properties
-signingKey=<YOUR_GNUPG_ID_LAST_8_CHARS>
-signingPassword=<YOUR_GNUPG_PASSPHRASE>
-signing.gnupg.keyName=<YOUR_GNUPG_ID>
+Create a `~/.jreleaser/config.yml` file with the publishing and signing information:
+```toml
+JRELEASER_GITHUB_OWNER: RGB-Tools
+JRELEASER_GITHUB_NAME: rgb-lib-kotlin
+JRELEASER_GITHUB_TOKEN: fake-token-not-used
 
-ossrhUsername=<YOUR_SONATYPE_USERNAME>
-ossrhPassword=<YOUR_SONATYPE_PASSWORD>
+JRELEASER_MAVENCENTRAL_USERNAME: "<your-publisher-portal-username>"
+JRELEASER_MAVENCENTRAL_PASSWORD: "<your-publisher-portal-password>"
+
+JRELEASER_GPG_PASSPHRASE: "<your-pgp-passphrase>"
+
+JRELEASER_GPG_PUBLIC_KEY: |
+  -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+  <contents-of-your-public-key>
+  -----END PGP PUBLIC KEY BLOCK-----
+
+JRELEASER_GPG_SECRET_KEY: |
+  -----BEGIN PGP PRIVATE KEY BLOCK-----
+
+  <contents-of-your-private-key>
+  -----END PGP PRIVATE KEY BLOCK-----
 ```
 and then publish by running:
 ```shell
-./gradlew :android:publishToSonatype closeAndReleaseSonatypeStagingRepository
+./gradlew :android:publish
+./gradlew jreleaserDeploy
 ```
 
 
