@@ -69,13 +69,13 @@ rustup target add x86_64-linux-android
 
 In order to publish the library to your local Maven repository:
 ```bash
-./gradlew :android:publishToMavenLocal --exclude-task signMavenPublication
+./gradlew :android:publishToMavenLocal
 ```
 
 #### To Maven Central repository (project maintainers only)
 
 Create a `~/.jreleaser/config.yml` file with the publishing and signing information:
-```toml
+```yaml
 JRELEASER_GITHUB_OWNER: RGB-Tools
 JRELEASER_GITHUB_NAME: rgb-lib-kotlin
 JRELEASER_GITHUB_TOKEN: fake-token-not-used
