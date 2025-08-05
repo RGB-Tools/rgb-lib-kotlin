@@ -43,6 +43,14 @@ jreleaser {
     signing {
         active.set(org.jreleaser.model.Active.ALWAYS)
         armored.set(true)
+        // change signing mode from MEMORY (default) to COMMAND
+        mode.set(org.jreleaser.model.Signing.Mode.COMMAND)
+
+        command {
+            // set GPG key + passphrase to be used for signing, from Gradle properties
+            keyName.set(providers.gradleProperty("jreleaser.gpg.keyName"))
+            passphrase.set(providers.gradleProperty("jreleaser.gpg.passphrase"))
+        }
     }
 
     deploy {

@@ -118,27 +118,31 @@ JRELEASER_GITHUB_TOKEN: fake-token-not-used
 
 JRELEASER_MAVENCENTRAL_USERNAME: "<your-publisher-portal-username>"
 JRELEASER_MAVENCENTRAL_PASSWORD: "<your-publisher-portal-password>"
-
-JRELEASER_GPG_PASSPHRASE: "<your-pgp-passphrase>"
-
-JRELEASER_GPG_PUBLIC_KEY: |
-  -----BEGIN PGP PUBLIC KEY BLOCK-----
-
-  <contents-of-your-public-key>
-  -----END PGP PUBLIC KEY BLOCK-----
-
-JRELEASER_GPG_SECRET_KEY: |
-  -----BEGIN PGP PRIVATE KEY BLOCK-----
-
-  <contents-of-your-private-key>
-  -----END PGP PRIVATE KEY BLOCK-----
 ```
 
-and then publish by running:
+Test your configuration by running:
+```shell
+./gradlew jreleaserConfig
+```
 
+Build the artifacts by running:
 ```shell
 ./gradlew :android:publish
-./gradlew jreleaserDeploy
+```
+
+Set your GPG password to the apprpriate environment variable by running:
+```shell
+read -rsp "GPG password: " JRELEASER_GPG_PASSPHRASE
+```
+
+Test the publishing by running:
+```shell
+./gradlew jreleaserDeploy --dryrun -Pjreleaser.gpg.keyName="<your_key_id>" -Pjreleaser.gpg.passphrase="$JRELEASER_GPG_PASSPHRASE"
+```
+
+Publish by running:
+```shell
+./gradlew jreleaserDeploy -Pjreleaser.gpg.keyName="<your_key_id>" -Pjreleaser.gpg.passphrase="$JRELEASER_GPG_PASSPHRASE"
 ```
 
 [rgb-lib]: https://github.com/RGB-Tools/rgb-lib
