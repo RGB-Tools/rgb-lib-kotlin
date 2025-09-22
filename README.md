@@ -47,7 +47,9 @@ docker compose run --build --rm builder
 Notes:
 
 - image build takes a long time and uses a lot of disk space
-- the local directory will be mounted into the docker container at runtime
+- the local directory will be mounted into the container at runtime
+- the `gradle_cache` local directory will be mounted into the container to
+  cache gradle downloads
 
 #### Local
 

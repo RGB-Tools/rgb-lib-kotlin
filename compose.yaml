@@ -7,3 +7,5 @@ services:
       MYGID: 1000
     volumes:
       - ./:/home/rgb-lib-kotlin/rgb-lib-kotlin/
+      - ./cargo_cache:/usr/local/cargo/registry/
+      - ./gradle_cache:/home/rgb-lib-kotlin/.gradle/

@@ -4,3 +4,5 @@
 **/build
 /android/src/main/jniLibs
 /android/src/main/kotlin
+/cargo_cache
+/gradle_cache
