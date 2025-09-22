@@ -1,4 +1,4 @@
-FROM rust:1.88-slim-bookworm
+FROM rust:1.90-slim-bookworm
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
@@ -34,6 +34,7 @@ RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK
 RUN rustup target add \
         aarch64-linux-android \
         x86_64-linux-android
+RUN rustup component add rustfmt
 
 COPY . $USER_HOME/rgb-lib-kotlin
 
