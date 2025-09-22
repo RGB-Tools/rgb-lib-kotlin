@@ -7,6 +7,7 @@ the [rgb-lib-uniffi] project, which is located inside the rgb-lib submodule.
 ## Usage
 
 To use the Kotlin library add the following to your project gradle dependencies:
+
 ```groovy
 repositories {
     mavenCentral()
@@ -19,55 +20,88 @@ dependencies {
 
 ## Contributing
 
+Clone the project, including submodules:
+
+```bash
+git clone git@github.com:rgb-tools-devs/rgb-lib-kotlin.git --recurse-submodules
+```
+
+When fetching updates, remember to update the submodule as well:
+
+```bash
+git submodule update --init
+```
+
 ### Build
 
 #### In docker
 
-In order to build the project, clone it and run:
-```bash
-# Update the submodule
-git submodule update --init
-```
-
-Then build the docker image:
-```bash
-# takes a long time and uses a lot of disk space
-docker compose build
-```
-
-Finally start the build container (if your user or group IDs are not `1000`,
-adjust the environment variables `MYUID` and `MYGID` in the `compose.yaml` file
+Build the docker image (if your user or group IDs are not `1000`, adjust the
+environment variables `MYUID` and `MYGID` in the `compose.yaml` file
 accordingly):
+
 ```bash
-# will mount the local directory into the docker container
-docker compose up
+docker compose run --build --rm builder
 ```
+
+Notes:
+
+- image build takes a long time and uses a lot of disk space
+- the local directory will be mounted into the docker container at runtime
 
 #### Local
 
-In order to build the project, setup the following environment variables:
-- `ANDROID_SDK_ROOT` (e.g. `export ANDROID_SDK_ROOT=~/Android/Sdk`)
-- `ANDROID_NDK_ROOT` (e.g. `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/25.<NDK_VERSION>`)
+Setup the following environment variables:
 
-Then, clone this project and run:
+- `ANDROID_SDK_ROOT` (e.g. `export ANDROID_SDK_ROOT=$HOME/Android/Sdk`)
+- `ANDROID_NDK_ROOT` (`export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/25.<NDK_VERSION>`)
+
+Note: NDK version 25.2.x can be installed via android studio (SDK Manager) or
+command-line tools (sdkmanager).
+
+Add the required Android rust targets:
+
 ```bash
-# Update the submodule
-git submodule update --init
-
-# Add Android rust targets
 rustup target add aarch64-linux-android
 rustup target add armv7-linux-androideabi
 rustup target add x86_64-linux-android
+```
 
-# Build the Android library
+Build the Android library:
+
+```bash
 ./gradlew :android:buildAndroidLib
 ```
 
+### Page alignment
+
+Check the build library page alignment:
+
+```bash
+for LIB in $(find rgb-lib/bindings/uniffi/target/ -wholename '*release/librgblibuniffi.so'); do ls -l "$LIB"; readelf -l "$LIB" |grep -A1 LOAD; done
+```
+
+The last column of each LOAD row is the alignment:
+- 0x1000 => pages align to 4KB
+- 0x4000 => pages align to 16KB
+
 ### Publish
+
+Download [OpenJDK 18] and unpack it to a directory of your choice (e.g.
+`$HOME/jdk`).
+
+Setup the following environment variables:
+
+- `ANDROID_SDK_ROOT` (e.g. `export ANDROID_SDK_ROOT="$HOME/Android/Sdk"`)
+- `ANDROID_HOME` (`export ANDROID_HOME="$ANDROID_SDK_ROOT"`)
+- `ANDROID_NDK_ROOT` (`export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/25.2.<NDK_VERSION>`)
+- `JAVA_HOME` (e.g. `export JAVA_HOME=$HOME/jdk/jdk-18.0.2`)
+- `PATH` (`export PATH=$JAVA_HOME/bin:$PATH`)
 
 #### To local Maven repository
 
-In order to publish the library to your local Maven repository:
+Publish the library to your local Maven repository:
+
 ```bash
 ./gradlew :android:publishToMavenLocal
 ```
@@ -75,6 +109,7 @@ In order to publish the library to your local Maven repository:
 #### To Maven Central repository (project maintainers only)
 
 Create a `~/.jreleaser/config.yml` file with the publishing and signing information:
+
 ```yaml
 JRELEASER_GITHUB_OWNER: RGB-Tools
 JRELEASER_GITHUB_NAME: rgb-lib-kotlin
@@ -97,12 +132,14 @@ JRELEASER_GPG_SECRET_KEY: |
   <contents-of-your-private-key>
   -----END PGP PRIVATE KEY BLOCK-----
 ```
+
 and then publish by running:
+
 ```shell
 ./gradlew :android:publish
 ./gradlew jreleaserDeploy
 ```
 
-
 [rgb-lib]: https://github.com/RGB-Tools/rgb-lib
 [rgb-lib-uniffi]: https://github.com/RGB-Tools/rgb-lib/tree/master/bindings/uniffi
+[OpenJDK 18]: (https://jdk.java.net/archive/)
