@@ -63,7 +63,6 @@ Add the required Android rust targets:
 
 ```bash
 rustup target add aarch64-linux-android
-rustup target add armv7-linux-androideabi
 rustup target add x86_64-linux-android
 ```
 

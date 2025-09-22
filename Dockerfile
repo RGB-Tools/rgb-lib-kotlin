@@ -33,8 +33,7 @@ RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK
 
 RUN rustup target add \
         aarch64-linux-android \
-        x86_64-linux-android \
-        armv7-linux-androideabi
+        x86_64-linux-android
 
 COPY . $USER_HOME/rgb-lib-kotlin
 

@@ -89,40 +89,6 @@ val buildAndroidX86_64Binary by tasks.register<Exec>("buildAndroidX86_64Binary")
     }
 }
 
-// armeabi-v7a version of the library for older 32-bit Android hardware
-val buildAndroidArmv7Binary by tasks.register<Exec>("buildAndroidArmv7Binary") {
-
-    workingDir(rgbLibUniffiPath)
-    val cargoArgs = cargoBuildCommonArgs + mutableListOf("armv7-linux-androideabi")
-
-    executable("cargo")
-    args(cargoArgs)
-
-    // if ANDROID_NDK_ROOT is not set then set it to github actions default
-    if (System.getenv("ANDROID_NDK_ROOT") == null) {
-        environment(
-            Pair("ANDROID_NDK_ROOT", "${System.getenv("ANDROID_SDK_ROOT")}/ndk-bundle")
-        )
-    }
-
-    environment(
-        // add build toolchain to PATH
-        Pair("PATH", "${System.getenv("PATH")}:${System.getenv("ANDROID_NDK_ROOT")}/toolchains/llvm/prebuilt/$llvmArchPath/bin"),
-
-        Pair("CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER", "armv7a-linux-androideabi21-clang"),
-        Pair("CC", "armv7a-linux-androideabi21-clang"),
-        Pair("AR_armv7_linux_androideabi", "llvm-ar"),
-        Pair("RANLIB_armv7_linux_androideabi", "llvm-ranlib"),
-
-        // support 16KB pages
-        Pair("RUSTFLAGS", "-C link-arg=-Wl,-z,max-page-size=16384"),
-    )
-
-    doLast {
-        println("Native library for rgb-lib-android on armv7 built successfully")
-    }
-}
-
 // move the native libs build by cargo from rgb-lib/bindings/uniffi/target/<architecture>/release/
 // to their place in the rgb-lib-android library
 // the task only copies the available binaries built using the buildAndroid<architecture>Binary tasks
@@ -138,11 +104,6 @@ val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
     into("x86_64") {
         from("$rgbLibUniffiPath/target/x86_64-linux-android/release/librgblibuniffi.so")
         from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++_shared.so")
-    }
-
-    into("armeabi-v7a") {
-        from("$rgbLibUniffiPath/target/armv7-linux-androideabi/release/librgblibuniffi.so")
-        from("$androidNdkRoot/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so")
     }
 
     doLast {
@@ -174,7 +135,6 @@ tasks.register("buildAndroidLib") {
         prepareBuild,
         buildAndroidAarch64Binary,
         buildAndroidX86_64Binary,
-        buildAndroidArmv7Binary,
         moveNativeAndroidLibs,
         generateAndroidBindings
     )
