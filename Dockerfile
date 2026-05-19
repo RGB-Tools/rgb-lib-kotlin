@@ -1,4 +1,4 @@
-FROM rust:1.94.1-slim-trixie
+FROM rust:1.95-slim-trixie
 
 RUN mkdir -p /usr/share/man/man1 \
     && apt-get update \
