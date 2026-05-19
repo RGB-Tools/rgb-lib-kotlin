@@ -148,6 +148,13 @@ Publish by running:
 ./gradlew jreleaserDeploy -Pjreleaser.gpg.keyName="<your_key_id>" -Pjreleaser.gpg.passphrase="$JRELEASER_GPG_PASSPHRASE"
 ```
 
+The publishing process tries to wait for the deployment to become available
+(`Attempt 1 of 101`). It is safe to stop the command at this point, as no other
+operation is done by the command after this and it just waits for the
+deployment to be complete. The successful publishing of the pacakge can be
+checked on [maven].
+
 [rgb-lib]: https://github.com/RGB-Tools/rgb-lib
 [rgb-lib-uniffi]: https://github.com/RGB-Tools/rgb-lib/tree/master/bindings/uniffi
 [OpenJDK 21]: (https://jdk.java.net/archive/)
+[maven]: https://repo1.maven.org/maven2/org/rgbtools/rgb-lib-android/
