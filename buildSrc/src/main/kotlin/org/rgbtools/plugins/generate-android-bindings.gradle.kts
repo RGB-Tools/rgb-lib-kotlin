@@ -10,6 +10,7 @@ val llvmArchPath = when (operatingSystem) {
 
 val androidPath = "${project.projectDir}/../android"
 val rgbLibUniffiPath = "${project.projectDir}/../rgb-lib/bindings/uniffi"
+val uniffiConfigPath = "${project.projectDir}/../uniffi-config.toml"
 
 val jniLibsDir = "$androidPath/src/main/jniLibs/"
 
@@ -119,7 +120,7 @@ val generateAndroidBindings by tasks.register<Exec>("generateAndroidBindings") {
     executable("cargo")
     args("run", "--bin", "rgb-lib-uniffi-bindgen", "generate", "src/rgb-lib.udl",
         "--language", "kotlin", "--out-dir", "$androidPath/src/main/kotlin",
-        "--config", "uniffi.toml")
+        "--config", uniffiConfigPath)
 
     doLast {
         println("Android bindings file successfully created")

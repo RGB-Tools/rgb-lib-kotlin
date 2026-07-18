@@ -1,0 +1,4 @@
+[defaults.bindings.kotlin]
+package_name = "org.rgbtools"
+cdylib_name = "rgblibuniffi"
+android = true
