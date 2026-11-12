@@ -44,6 +44,13 @@ accordingly):
 docker compose run --build --rm builder
 ```
 
+Other gradle tasks can be run by passing them as arguments, e.g. to also
+compile the library and the test APK:
+
+```bash
+docker compose run --rm builder :android:assembleRelease :android:assembleDebugAndroidTest
+```
+
 Notes:
 
 - image build takes a long time and uses a lot of disk space
@@ -73,6 +80,36 @@ Build the Android library:
 ```bash
 ./gradlew :android:buildAndroidLib
 ```
+
+### Test
+
+The `SmokeTest` class contains a smoke test for the bindings, which exercises
+the API with operations requiring no external service (indexer, proxy, ...).
+Its purpose is to catch an rgb-lib update breaking the bindings: a native
+library that doesn't load, a changed or removed API, a broken type or error
+conversion. Anything requiring a regtest environment is covered by the rgb-lib
+test suite instead.
+
+Since the bindings need the Android runtime, the test runs on a device or
+emulator. With one connected (`adb devices` lists it), run:
+
+```bash
+./gradlew :android:connectedDebugAndroidTest
+```
+
+If the library has been built in docker, the test can also be run from the host
+on an already running emulator, without a local JDK:
+
+```bash
+# the debug signing key is regenerated on each docker run, so a previously
+# installed test APK needs to be removed first
+adb uninstall org.rgbtools.test
+adb install android/build/outputs/apk/androidTest/debug/android-debug-androidTest.apk
+adb shell am instrument -w org.rgbtools.test/androidx.test.runner.AndroidJUnitRunner
+```
+
+The test is run in CI on each push and pull request, on two API levels, by the
+`Build` workflow.
 
 ### Page alignment
 
