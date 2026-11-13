@@ -7,4 +7,5 @@ echo "Setting uid/gid..."
 chown "${USER}:${USER}" "/home/${USER}/.gradle"
 chmod 777 /usr/local/cargo/registry
 
-exec gosu "${USER}" ./gradlew :android:buildAndroidLib
+# run the gradle tasks given as arguments, defaulting to building the library
+exec gosu "${USER}" ./gradlew "${@:-:android:buildAndroidLib}"

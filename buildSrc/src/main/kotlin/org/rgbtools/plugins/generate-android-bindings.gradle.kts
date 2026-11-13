@@ -18,8 +18,10 @@ val androidNdkRoot = System.getenv("ANDROID_NDK_ROOT")
 
 val cargoBuildCommonArgs: MutableList<String> = mutableListOf("build", "--release", "--target")
 
-val prepareBuild by tasks.register("prepareBuild") {
-    File(jniLibsDir).deleteRecursively()
+// clean up the previously built native libs, so that stale ones don't end up
+// in the library if the current build doesn't produce all of them
+val prepareBuild by tasks.register<Delete>("prepareBuild") {
+    delete(jniLibsDir)
 }
 
 // arm64-v8a is the most popular hardware architecture for Android
@@ -94,6 +96,7 @@ val buildAndroidX86_64Binary by tasks.register<Exec>("buildAndroidX86_64Binary")
 // to their place in the rgb-lib-android library
 // the task only copies the available binaries built using the buildAndroid<architecture>Binary tasks
 val moveNativeAndroidLibs by tasks.register<Copy>("moveNativeAndroidLibs") {
+    dependsOn(prepareBuild)
 
     into(jniLibsDir)
 

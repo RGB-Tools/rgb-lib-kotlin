@@ -51,6 +51,12 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.core:core-ktx:1.16.0")
     api("org.slf4j:slf4j-api:2.0.17")
+
+    // the smoke test runs on a device/emulator, as the bindings need the
+    // Android runtime (the generated code and the native libs target Android)
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test:runner:1.7.0")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
 }
 
 afterEvaluate {
